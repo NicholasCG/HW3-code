@@ -64,8 +64,11 @@ class KMeans:
         sses = []
         i = 0
 
+        init_sse = 0
+
         if condition == 'centroids':
             start_time = time()
+
             while (old_centroids is None or not np.array_equal(old_centroids, centroids)):
 
                 old_centroids = centroids
@@ -77,6 +80,10 @@ class KMeans:
                 sse = self._SSE(self.x, centroids, assigned_centroids)
 
                 sses.append(sse)
+
+                if i == 0:
+                    init_sse = sse
+
                 i += 1
             end_time = time()
 
@@ -92,6 +99,10 @@ class KMeans:
                 sse = self._SSE(self.x, centroids, assigned_centroids)
 
                 sses.append(sse)
+
+                if i == 0:
+                    init_sse = sse
+                
                 i += 1
             end_time = time()
 
@@ -105,6 +116,9 @@ class KMeans:
 
                 sse = self._SSE(self.x, centroids, assigned_centroids)
                 sses.append(sse)
+
+                if i == 0:
+                    init_sse = sse
 
             end_time = time()
 
@@ -120,6 +134,9 @@ class KMeans:
 
                 sse = self._SSE(self.x, centroids, assigned_centroids)
                 sses.append(sse)
+
+                if i == 0:
+                    init_sse = sse
 
                 i += 1
             end_time = time()
@@ -139,7 +156,7 @@ class KMeans:
         accuracy = self.accuracy(y, assigned_centroids)
 
         # display the final SSE, accuracy, time, and # of iterations on the plot to the right
-        plt.figtext(0.6, 0.7, f'Final SSE: {sse:0.2f} \nAccuracy: {(accuracy * 100):0.2f}% \nTime: {(end_time - start_time):0.2f} sec \nIterations: {i}', wrap=True, horizontalalignment='left', fontsize=12)
+        plt.figtext(0.6, 0.6, f'Final SSE: {sse:0.2f} \nAccuracy: {(accuracy * 100):0.2f}% \nTime: {(end_time - start_time):0.2f} sec \nIterations: {i}\n SSE ratio: {(sse / init_sse * 100):0.2f}%', wrap=True, horizontalalignment='left', fontsize=12)
         
         # save the plot
         # plt.show()
